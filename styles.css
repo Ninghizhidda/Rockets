@@ -1,0 +1,40 @@
+body, html{
+  font-size: 25px;
+  font-family: "Arial", "Helvetica", "Verdana", sans-serif;
+  margin: 0px;
+  padding: 0px;
+  background-image: url("assets/bg.jpg");
+  background-color: #000;
+  color: #727271;
+}
+h1{
+  font-size: 1.1rem;
+  color: #727271;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* flexbox layout*/
+.fc {
+  display: flex;
+  flex-flow: row wrap;
+}
+.fc > * {
+  flex: 1;
+}
+.fc header,
+.fc footer {
+  flex: 0 1 100vw;
+}
+/* flex-container >= viewport*/
+.fc { min-height: 100vh; }
+
+.fc > * { min-width: 200px; }
+
+.fc > * {
+  padding: 0px;
+  vertical-align: bottom;
+  text-align:center;
+  display: inline-block;
+  align-self: flex-end;
+}
