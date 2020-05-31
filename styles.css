@@ -13,6 +13,45 @@ h1{
   font-weight: bold;
   text-align: center;
 }
+#rocketImg{
+  display: none;
+  width: 66px;
+  height: 100px;
+}
+#rocketTopImg{
+  display: none;
+  width: 66px;
+  height: 67px;
+}
+canvas{
+
+}
+#fuelLeft{
+
+}
+#showFuel{
+  position: absolute;
+  left: 100px;
+}
+#success{
+  position: absolute;
+  left: 46%;
+  top: 46vh;
+}
+.toggleDisplay{
+  display:none;
+}
+#showFuel span{
+  padding: 20px;
+  font-size: 18px;
+}
+#btn{
+  margin: 10px;
+  background-color: #000;
+  color: #727271;
+  border-color: #727271;
+  position: absolute;
+}
 
 /* flexbox layout*/
 .fc {
@@ -22,19 +61,13 @@ h1{
 .fc > * {
   flex: 1;
 }
-.fc header,
-.fc footer {
-  flex: 0 1 100vw;
-}
 /* flex-container >= viewport*/
 .fc { min-height: 100vh; }
 
-.fc > * { min-width: 200px; }
-
 .fc > * {
+  min-width: 100px;
   padding: 0px;
   vertical-align: bottom;
-  text-align:center;
   display: inline-block;
   align-self: flex-end;
 }
