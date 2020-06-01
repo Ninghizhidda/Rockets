@@ -64,7 +64,12 @@ function Rocket(id,fuel1,fuel2) {
 
   this.draw = function () {
     if (runningTime) {
-      ctx.clearRect(id * rocketAnim.x, rocketAnim.w, cw, ch);
+      // Detect top
+      if (rocketAnim.y - rocketAnim.h < 0) {
+        //rocketAnim.dy = 0;
+        rocketAnim.y = ch;
+      }
+      ctx.clearRect(id * rocketAnim.x, 0, rocketAnim.w, ch);
       if (stage == 2) {
         imgTop = document.getElementById("rocketTopImg");
       }
@@ -74,7 +79,7 @@ function Rocket(id,fuel1,fuel2) {
         // Detect top
         if (rocketAnim.y - rocketAnim.h < 0) {
           //rocketAnim.dy = 0;
-          rocketAnim.y = ch - rocketAnim.h;
+          rocketAnim.y = ch;
         }
         if (stage == 2) {
           ctx.drawImage(imgTop, id * rocketAnim.x, rocketAnim.y - rocketAnim.h, rocketAnim.w, rocketAnim.h - 33);
