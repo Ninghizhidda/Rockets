@@ -24,7 +24,18 @@ body, html{
 #success{
   position: absolute;
   left: 46%;
-  top: 46vh;
+  top: 30vh;
+  font-size: 28px;
+}
+#successButton{
+  position: absolute;
+  left: 46%;
+  top: 60vh;
+  padding: 10px;
+  font-size: 24px;
+  background-color: #000;
+  color: #727271;
+  border-color: #727271;
 }
 .toggleDisplay{
   display:none;

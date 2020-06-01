@@ -1,5 +1,6 @@
 const endpoint = "https://api.spacexdata.com/v3/rockets"
 let runningTime = true; // start or pause animation
+let canvasHeight = document.getElementById("rocketsCanvas").height;
 
 //Rocket class
 function Rocket(id,fuel1,fuel2) {
@@ -23,13 +24,24 @@ function Rocket(id,fuel1,fuel2) {
     speed: 1,
   };
 
+  let stage = 1;
+  this.resetCanvas = function() {
+    rocketAnim.x = 132;
+    rocketAnim.y = ch;
+    rocketAnim.w = 66;
+    rocketAnim.h = 100;
+    rocketAnim.dx = 0;
+    rocketAnim.xy = 1;
+    stage = 1;
+  }
+
   const fuelPerSecond = 1;
   this.id = id;
   this.fuel1 = Math.round(fuel1);
   this.fuel2 = Math.round(fuel2);
   this.fuelLeft = this.fuel1;
   this.stageNumber = 1;
-  let stage = 1;
+
 
   this.manageStage = function () {
     if (this.stageNumber == 1 && this.fuelLeft <= 0) {
@@ -61,7 +73,8 @@ function Rocket(id,fuel1,fuel2) {
         rocketAnim.y -= rocketAnim.dy;
         // Detect top
         if (rocketAnim.y - rocketAnim.h < 0) {
-          rocketAnim.dy = 0;
+          //rocketAnim.dy = 0;
+          rocketAnim.y = ch - rocketAnim.h;
         }
         if (stage == 2) {
           ctx.drawImage(imgTop, id * rocketAnim.x, rocketAnim.y - rocketAnim.h, rocketAnim.w, rocketAnim.h - 33);
@@ -109,6 +122,7 @@ function succes() {
   }
   if (showSuccesMessage == size) {
     document.getElementById("success").classList.remove("toggleDisplay");
+    //document.getElementById("successButton").classList.remove("toggleDisplay");
   }
 }
 
@@ -146,4 +160,13 @@ document.getElementById("btn").addEventListener("click", function(){
     runningTime = true;
     document.getElementById("btn").innerHTML = "Stop time";
   }
+});
+
+document.getElementById("successButton").addEventListener("click", function(){
+  for (const property in rocketsContainer) {
+    rocketsContainer[property].resetCanvas();
+  }
+  load();
+  document.getElementById("successButton").classList.add("toggleDisplay");
+  document.getElementById("success").classList.add("toggleDisplay");
 });
