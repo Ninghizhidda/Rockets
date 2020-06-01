@@ -1,29 +1,28 @@
 const endpoint = "https://api.spacexdata.com/v3/rockets"
-const rocketsDiv = document.querySelector('#rocketsCanvas');
-
-let c = document.getElementById("rocketsCanvas");
-let ctx = c.getContext("2d");
-let img = document.getElementById("rocketImg");
-let imgTop = document.getElementById("rocketTopImg");
-const cw = c.width;
-const ch = c.height;
-let runningTime = true;
-//let drawingID = 1;
-const rocketAnim = {
-  img: document.getElementById("rocketImg"),
-  x: 132,
-  y: ch,
-  w: 66,
-  h: 100,
-  dx: 0,
-  dy: 1,
-  speed: 1,
-};
-
-document.addEventListener('DOMContentLoaded', () => {});
+let runningTime = true; // start or pause animation
 
 //Rocket class
 function Rocket(id,fuel1,fuel2) {
+  //canvas preperties
+  let c = document.getElementById("rocketsCanvas");
+  let ctx = c.getContext("2d");
+  let img = document.getElementById("rocketImg");
+  let imgTop = document.getElementById("rocketTopImg");
+  const cw = c.width;
+  const ch = c.height;
+
+  //img properties
+  const rocketAnim = {
+    img: document.getElementById("rocketImg"),
+    x: 132,
+    y: ch,
+    w: 66,
+    h: 100,
+    dx: 0,
+    dy: 1,
+    speed: 1,
+  };
+
   const fuelPerSecond = 1;
   this.id = id;
   this.fuel1 = Math.round(fuel1);
@@ -33,7 +32,6 @@ function Rocket(id,fuel1,fuel2) {
   let stage = 1;
 
   this.manageStage = function () {
-    //console.log("manage stage");
     if (this.stageNumber == 1 && this.fuelLeft <= 0) {
       this.fuelLeft = this.fuel2;
       this.stageNumber = 2;
@@ -53,9 +51,6 @@ function Rocket(id,fuel1,fuel2) {
   };
 
   this.draw = function () {
-    //console.log(Rocket.stageNumber );
-    //console.log(ParentConstructor.prototype.stageNumber);
-    //console.log(stage);
     if (runningTime) {
       ctx.clearRect(id * rocketAnim.x, rocketAnim.w, cw, ch);
       if (stage == 2) {
@@ -68,7 +63,6 @@ function Rocket(id,fuel1,fuel2) {
         if (rocketAnim.y - rocketAnim.h < 0) {
           rocketAnim.dy = 0;
         }
-        //console.log("d" + id);
         if (stage == 2) {
           ctx.drawImage(imgTop, id * rocketAnim.x, rocketAnim.y - rocketAnim.h, rocketAnim.w, rocketAnim.h - 33);
         }
@@ -88,7 +82,6 @@ let rocketsContainer = { }; // main object
 
 function burnFuel() {
   for (const property in rocketsContainer) {
-
     if (rocketsContainer[property].fuelLeft > 0) {
       rocketsContainer[property].fuelLeft -= 1;
     }
@@ -100,10 +93,8 @@ function burnFuel() {
     let newRocket = document.createElement("span");
     newRocket.setAttribute("id", `span${property}`);
     document.getElementById("showFuel").appendChild(newRocket);
-
     //console.log(rocketsContainer[property].fuelLeft);
     document.getElementById(`span${property}`).innerHTML = ` R${rocketsContainer[property].id}: ${rocketsContainer[property].fuelLeft} ` ;
-    //rocketsContainer[property].move();
   }
 }
 
@@ -117,30 +108,31 @@ function succes() {
     }
   }
   if (showSuccesMessage == size) {
-    //console.log("success");
     document.getElementById("success").classList.remove("toggleDisplay");
   }
 }
 
-
-
-//fetch api data
-fetch('https://api.spacexdata.com/v3/rockets')
-.then(res => res.json())//response type
-.then(data => {
-  console.log(data);
-  data.forEach((rocket) => {
-    const name = 'rocketID' + rocket.id;
-    const rID =  rocket.id;
-    console.log(rocket.id);
-    rocketsContainer[name]  = new Rocket(rocket.id,rocket.first_stage.fuel_amount_tons,rocket.second_stage.fuel_amount_tons);
-    console.log(rocketsContainer[name]);
-    //rocketsContainer[name].move();
-    setInterval( rocketsContainer[name].draw, 2000 );
-    //draw(rID);
+// Load page
+function load() {
+  //fetch api data
+  fetch('https://api.spacexdata.com/v3/rockets')
+  .then(res => res.json())//response type
+  .then(data => {
+    console.log(data);
+    data.forEach((rocket) => {
+      const name = 'rocketID' + rocket.id;
+      const rID =  rocket.id;
+      //create rocket objects
+      rocketsContainer[name]  = new Rocket(rocket.id,rocket.first_stage.fuel_amount_tons,rocket.second_stage.fuel_amount_tons);
+      console.log(rocketsContainer[name]);
+      //rocketsContainer[name].move();
+      setInterval( rocketsContainer[name].draw, 2000 );
+    });
   });
-});
+};
 
+// When DOM loads, render rockets.
+document.addEventListener('DOMContentLoaded', load);
 let burn = setInterval(burnFuel, 1000);
 
 document.getElementById("btn").addEventListener("click", function(){

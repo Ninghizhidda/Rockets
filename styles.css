@@ -7,12 +7,6 @@ body, html{
   background-color: #000;
   color: #727271;
 }
-h1{
-  font-size: 1.1rem;
-  color: #727271;
-  font-weight: bold;
-  text-align: center;
-}
 #rocketImg{
   display: none;
   width: 66px;
@@ -22,12 +16,6 @@ h1{
   display: none;
   width: 66px;
   height: 67px;
-}
-canvas{
-
-}
-#fuelLeft{
-
 }
 #showFuel{
   position: absolute;
